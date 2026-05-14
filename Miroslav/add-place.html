@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добави място — МестаБГ</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="main-style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo">Места<span>БГ</span></a>
+    <a href="index.html" class="back-link">← Назад</a>
+  </div>
+</nav>
+
+<div class="auth-body">
+  <div class="card wide-card">
+    <h1>Добави ново място</h1>
+    <p class="auth-sub">Сподели детайли за интересно локално място или предстоящо събитие.</p>
+
+    <form id="addPlaceForm">
+      <div class="field">
+        <label>Име на мястото</label>
+        <input type="text" id="placeTitle" placeholder="Пример: Водопад Скакля" required>
+      </div>
+      <div class="field">
+        <label>Категория</label>
+        <select id="placeCategory">
+          <option value="nature">Природа</option>
+          <option value="culture">Култура и история</option>
+          <option value="food">Храна и напитки</option>
+          <option value="events">Събития</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Описание</label>
+        <textarea id="placeDesc" rows="4" placeholder="Разкажи ни повече..." required></textarea>
+      </div>
+      <div class="field">
+        <label>URL на снимка</label>
+        <input type="url" id="placeImg" placeholder="https://image-url.com/photo.jpg">
+      </div>
+      <button type="submit" id="saveBtn">Публикувай</button>
+      <div id="addMessage" class="msg"></div>
+    </form>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
+
