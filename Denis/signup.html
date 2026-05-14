@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>МестаБГ — Регистрация</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="auth-wrap">
+
+<div class="auth-body">
+  <div class="card">
+    <h1>Регистрация</h1>
+    <p class="auth-sub">Присъедини се към <strong>МестаБГ</strong> и откривай местни събития, интересни места и дискусии за живота в България.</p>
+
+    <form id="signupForm" novalidate>
+      <div class="field">
+        <label for="email">Имейл</label>
+        <input type="email" id="email" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="password">Парола</label>
+        <input type="password" id="password" placeholder="Мин. 8 символа" required>
+      </div>
+      <div class="field">
+        <label for="role">Вид акаунт</label>
+        <select id="role">
+          <option value="user">Потребител</option>
+          <option value="business">Бизнес профил</option>
+        </select>
+      </div>
+      <button type="submit" id="submitBtn">Създай акаунт</button>
+      <div class="msg" id="message"></div>
+    </form>
+
+    <p class="link">Вече имаш акаунт? <a href="login.html">Влез</a></p>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  const form    = document.getElementById('signupForm');
+  const btn     = document.getElementById('submitBtn');
+  const message = document.getElementById('message');
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const role     = document.getElementById('role').value;
+
+    if (!email || !password) {
+      message.textContent = 'Моля попълни всички полета.';
+      message.className = 'msg error';
+      return;
+    }
+    if (password.length < 8) {
+      message.textContent = 'Паролата трябва да е поне 8 символа.';
+      message.className = 'msg error';
+      return;
+    }
+
+    btn.disabled = true; btn.textContent = 'Създаване...';
+    message.className = 'msg';
+
+    const { data, error } = await db.auth.signUp({
+      email,
+      password,
+      options: { data: { role } }
+    });
+
+    btn.disabled = false; btn.textContent = 'Създай акаунт';
+
+    if (error) {
+      message.textContent = error.message;
+      message.className = 'msg error';
+    } else if (data.user?.identities?.length === 0) {
+      message.textContent = 'Акаунт с този имейл вече съществува.';
+      message.className = 'msg error';
+    } else {
+      message.textContent = 'Акаунтът е създаден! Провери имейла си за потвърждение.';
+      message.className = 'msg success';
+      form.reset();
+      setTimeout(() => { window.location.href = 'login.html'; }, 2500);
+    }
+  });
+</script>
+
+</body>
+</html>
