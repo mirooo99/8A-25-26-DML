@@ -1,7 +1,7 @@
 async function checkAuth() {
     const { data: { session } } = await db.auth.getSession();
     if (!session) {
-        window.location.href = '../Denis/login.html';
+        window.location.href = '/Denis/login.html';
     }
     return session;
 }
